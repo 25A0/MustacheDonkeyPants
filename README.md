@@ -40,7 +40,14 @@ It works with emoticons, too:
 The words used by this tool come from a curated version of the _"Single"_ word
 list of the [Moby project](http://icon.shef.ac.uk/Moby/mwords.html). The original
 list was released to the public domain in 1996, and contained 354,984 words.
-The modified version used in this project contains `wc words.txt`.
+The modified version used in this project contains `wc words.txt` words.
+
+What I've changed compared to the original list:
+
+ - any line matching `[^a-z\s]` was removed
+ - any single-letter words were removed
+
+Thus, all words contain only a-z and have a length of at least 2.
 
 ## But... why?
 
