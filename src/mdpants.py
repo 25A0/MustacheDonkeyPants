@@ -50,7 +50,7 @@ def postprocess(word):
 
 def fetch_words(filename, indices):
     count = 0
-    words = []
+    sorted_words = []
     sorted_indices = sorted(indices)
     with open(filename, 'r', DEFAULT_BUFFER_SIZE) as f:
         for line in f:
@@ -59,9 +59,16 @@ def fetch_words(filename, indices):
             # We use a while loop instead of a simple check since there might
             # be cases where the same index appears multiple times
             while len(sorted_indices) > 0 and count == sorted_indices[0]:
-                words.append(postprocess(line))
+                sorted_words.append(postprocess(line))
                 del sorted_indices[0]
             count += 1
+
+    # Re-order the words so that they appear in the specified order, rather
+    # than in the sorted order
+    words = []
+    sorted_indices = sorted(indices)
+    for index in indices:
+        words.append(sorted_words[sorted_indices.index(index)])
     return words
 
 def parse_args(arguments):
