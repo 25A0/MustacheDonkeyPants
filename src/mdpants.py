@@ -45,6 +45,9 @@ def len_wordlist(filename):
             count +=1
     return count
 
+def postprocess(word):
+    return word.strip().title()
+
 def fetch_words(filename, indices):
     count = 0
     words = []
@@ -56,7 +59,7 @@ def fetch_words(filename, indices):
             # We use a while loop instead of a simple check since there might
             # be cases where the same index appears multiple times
             while len(sorted_indices) > 0 and count == sorted_indices[0]:
-                words.append(line.strip())
+                words.append(postprocess(line))
                 del sorted_indices[0]
             count += 1
     return words
