@@ -13,12 +13,20 @@ VERSION = '0.1'
 
 def get_hash_seed(filename):
     hash_alg = hashlib.sha512()
-    with open(filename, 'r', DEFAULT_BUFFER_SIZE) as f:
+    if filename.strip() is '-':
+        f = sys.stdin
+    else:
+        f = open(filename, 'r', DEFAULT_BUFFER_SIZE)
+
+    try:
         s = f.read(DEFAULT_BUFFER_SIZE)
         while len(s) > 0:
             hash_alg.update(s)
             s = f.read(DEFAULT_BUFFER_SIZE)
         return hash_alg.digest()
+    finally:
+        f.close()
+
 
 def get_prng_seed():
     # To simplify things, we'll generate the same amount of data as sha512
