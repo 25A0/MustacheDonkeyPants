@@ -7,6 +7,7 @@ import hashlib
 import os
 import binascii
 import numpy
+import codecs
 
 DEFAULT_N_WORDS = 3
 VERSION = '0.1'
@@ -15,8 +16,8 @@ def get_hash_seed(filename):
     hash_alg = hashlib.sha512()
     if filename.strip() is '-':
         f = sys.stdin
-    else:
-        f = open(filename, 'r', DEFAULT_BUFFER_SIZE)
+    else: 
+        f = codecs.open(filename, 'r', encoding='utf-8')
 
     try:
         s = f.read(DEFAULT_BUFFER_SIZE)
@@ -40,19 +41,19 @@ def get_seed(file):
 
 def len_wordlist(filename):
     count = 0
-    with open(filename, 'r', DEFAULT_BUFFER_SIZE) as f:
+    with codecs.open(filename, 'r', encoding='utf-8') as f:
         for line in f:
             count +=1
     return count
 
 def postprocess(word):
-    return word.strip().title()
+    return word.strip().title().encode('utf-8')
 
 def fetch_words(filename, indices):
     count = 0
     sorted_words = []
     sorted_indices = sorted(indices)
-    with open(filename, 'r', DEFAULT_BUFFER_SIZE) as f:
+    with codecs.open(filename, 'r', encoding='utf-8') as f:
         for line in f:
             if len(sorted_indices) is 0:
                 break

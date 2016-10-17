@@ -27,6 +27,14 @@ You can vary the number of words that the output is comprised of:
 	MustacheDonkeyPantsPotatoeCar
 ```
 
+It works with emoticons, too:
+
+```
+	% echo 'Hello World!' > myfile
+	% ./src/mdpants.py -c ' ' --in emoticons.txt myfile
+	😳 😟 😍
+```
+
 ### Words
 
 The words used by this tool come from a curated version of the _"Single"_ word
