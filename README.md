@@ -1,13 +1,13 @@
 ## Mustache Donkey Pants
 
-This is a small tool to generate a deterministic, pronounceable and memorable names for a given input.
+This is a small tool to generate a deterministic, pronounceable and memorable names from a given input.
 Inspired by https://destructible.io/ and https://what3words.com/.
 
 ### Usage
 
 ```
 	% echo 'Hello World!' > myfile
-	% mdpants myfile
+	% ./src/mdpants.py myfile
 	MustacheDonkeyPants
 ```
 
@@ -15,7 +15,7 @@ The output depends on the file content, not the filename:
 
 ```
 	% echo 'Thanks for all the fish!' > myfile
-	% mdpants myfile
+	% ./src/mdpants.py myfile
 	SomeOtherName
 ```
 
@@ -23,7 +23,7 @@ You can vary the number of words that the output is comprised of:
 
 ```
 	% echo 'Hello World' > myfile
-	% mdpants -n5 myfile
+	% ./src/mdpants.py -N5 myfile
 	MustacheDonkeyPantsPotatoeCar
 ```
 
@@ -36,7 +36,7 @@ The modified version used in this project contains `wc words.txt`.
 
 ## But... why?
 
-Here's what I use this tool for: I often share files by putting them in a
+Here's what I will use this tool for: I often share files by putting them in a
 folder on my server without access restriction. But I don't want people to be
 able to see what else is lying around there. The content of that folder is not
 enumerable, but people could still try to guess filenames. Using the hash of
