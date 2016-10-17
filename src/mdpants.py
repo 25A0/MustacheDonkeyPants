@@ -74,7 +74,7 @@ def parse_args(arguments):
 
     parser = argparse.ArgumentParser(
         description='Generate a deterministic, pronounceable and memorable set of words for a given input.',
-        usage='%(prog)s [-N n] [--in <file>] [-R|-|<file>]')
+        usage='%(prog)s [-N n] [-c char] [--in <file>] [-R|-|<file>]')
     group = parser.add_mutually_exclusive_group(required=True)
 
     group.add_argument('file',
@@ -91,6 +91,9 @@ def parse_args(arguments):
     parser.add_argument('--in',
         dest='in', metavar='<file>', default='words.txt', 
         help='Use the words from the specified text file.')
+    parser.add_argument('-c', '--concat',
+        dest='concat', metavar='char', default='.',
+        help='Use the specified character or string to concatenate the words (default: %(default)s).')
     # parser.add_argument('--bin',
     #     dest='bin', metavar='<file>',
     #     help='Use the words from the specified binary file.')
@@ -112,7 +115,7 @@ if __name__ == '__main__':
 
     words = fetch_words(args['in'], indices)
 
-    print(''.join(words))
+    print(args['concat'].join(words))
 
     # print('# words in list: {}'.format(len_wordlist))
     # print('indices: {}'.format(indices))
