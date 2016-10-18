@@ -10,7 +10,6 @@ import numpy
 import codecs
 
 DEFAULT_N_WORDS = 3
-VERSION = '0.1'
 
 def get_hash_seed(filename):
     hash_alg = hashlib.sha512()
@@ -105,7 +104,6 @@ def parse_args(arguments):
     # parser.add_argument('--bin',
     #     dest='bin', metavar='<file>',
     #     help='Use the words from the specified binary file.')
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s {}'.format(VERSION))
     return parser.parse_args(arguments)
 
 if __name__ == '__main__':
