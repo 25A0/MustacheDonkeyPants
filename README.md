@@ -1,6 +1,6 @@
 ## Mustache Donkey Pants
 
-This is a small tool to generate a deterministic, pronounceable and memorable names from a given input.
+This is a small tool to generate deterministic, pronounceable and memorable words from a given input.
 Inspired by https://destructible.io/ and https://what3words.com/.
 
 ### Usage
