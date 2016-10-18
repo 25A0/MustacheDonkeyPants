@@ -8,6 +8,7 @@ import os
 import binascii
 import numpy
 import codecs
+import struct
 
 DEFAULT_N_WORDS = 3
 
@@ -46,12 +47,13 @@ def len_wordlist(filename):
     return count
 
 def postprocess(word):
-    return word.strip().title().encode('utf-8')
+    return word.strip().title()
 
-def fetch_words(filename, indices):
+def fetch_text(filename, sorted_float_indices):
+    total = len_wordlist(filename)
+    sorted_indices = [int(x * total) for x in sorted_float_indices]
     count = 0
     sorted_words = []
-    sorted_indices = sorted(indices)
     with codecs.open(filename, 'r', encoding='utf-8') as f:
         for line in f:
             if len(sorted_indices) is 0:
@@ -62,6 +64,38 @@ def fetch_words(filename, indices):
                 sorted_words.append(postprocess(line))
                 del sorted_indices[0]
             count += 1
+    return sorted_words
+
+def fetch_binary(filename, sorted_float_indices):
+    sorted_words = []
+    with open(filename, 'br') as f:
+        count = int(struct.unpack('=q', f.read(8))[0])
+        max_line = int(struct.unpack('=q', f.read(8))[0])
+        sorted_indices = [int(x * count) for x in sorted_float_indices]
+        current = sorted_indices[0]
+        advance = current
+        while len(sorted_indices) > 0:
+            f.seek(max_line*advance, os.SEEK_CUR)
+            current = sorted_indices[0]
+
+            word = f.read(max_line)
+            sorted_words.append(postprocess(word[:word.index(b'\x0a')].decode('utf-8')))
+            del sorted_indices[0]
+            if len(sorted_indices) == 0: break
+
+            # The # of bytes that we need to advance is the distance between
+            # the current position and the position of the next index
+            advance = sorted_indices[0] - (current + 1)
+    return sorted_words
+
+def fetch_words(filename, indices, mode):
+    if len(indices) == 0: return []
+    sorted_indices = sorted(indices)
+
+    if mode is 'binary':
+        sorted_words = fetch_binary(filename, sorted_indices)
+    elif mode is 'text':
+        sorted_words = fetch_text(filename, sorted_indices)
 
     # Re-order the words so that they appear in the specified order, rather
     # than in the sorted order
@@ -81,7 +115,7 @@ def parse_args(arguments):
 
     parser = argparse.ArgumentParser(
         description='Generate a deterministic, pronounceable and memorable set of words for a given input.',
-        usage='%(prog)s [-N n] [-c char] [--in <file>] [-R|-|<file>]')
+        usage='%(prog)s [-N n] [-c char] [--(in|bin) <file>] [-R|-|<file>]')
     group = parser.add_mutually_exclusive_group(required=True)
 
     group.add_argument('file',
@@ -95,15 +129,18 @@ def parse_args(arguments):
         dest='num_words', metavar='num', type=positive,
         help='Set the number of words in the output (default: %(default)s).', 
         default=DEFAULT_N_WORDS)
-    parser.add_argument('--in',
-        dest='in', metavar='<file>', default='words.txt', 
+
+    word_input = parser.add_mutually_exclusive_group()
+    word_input.add_argument('--in',
+        dest='in', metavar='<file>',
         help='Use the words from the specified text file.')
+    word_input.add_argument('--bin',
+        dest='bin', metavar='<file>', default='words.bin', 
+        help='Use the words from the specified binary file (see constant_width.py).')
+
     parser.add_argument('-c', '--concat',
         dest='concat', metavar='char', default='.',
         help='Use the specified character or string to concatenate the words (default: %(default)s).')
-    # parser.add_argument('--bin',
-    #     dest='bin', metavar='<file>',
-    #     help='Use the words from the specified binary file.')
     return parser.parse_args(arguments)
 
 if __name__ == '__main__':
@@ -115,13 +152,19 @@ if __name__ == '__main__':
     seed = get_seed(args['file'])
     numpy.random.seed(bytearray(seed))
 
-    len_wordlist = len_wordlist(args['in'])
+    if args['in']: 
+        mode = 'text'
+        wordlist_filename = args['in']
+    elif args['bin']: 
+        mode = 'binary'
+        wordlist_filename = args['bin']
 
-    indices = [int(x * len_wordlist) for x in numpy.random.rand(args['num_words'])]
+    # These indices are floats in [0, 1) and will later be translated into
+    # integers within the limits of the word list.
+    indices = numpy.random.rand(args['num_words'])
+    words = fetch_words(wordlist_filename, indices, mode)
 
-    words = fetch_words(args['in'], indices)
-
-    print(args['concat'].join(words))
+    print(args['concat'].join(words).encode('utf-8'))
 
     # print('# words in list: {}'.format(len_wordlist))
     # print('indices: {}'.format(indices))
