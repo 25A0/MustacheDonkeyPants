@@ -17,6 +17,8 @@ The output depends on the file content, not the filename:
 % echo 'Thanks for all the fish!' > myfile
 % ./src/mdpants.py myfile
 Noncalculable.Cremationist.Somersetted
+% echo 'Thanks for all the fish!' | ./src/mdpants.py -
+Noncalculable.Cremationist.Somersetted
 ```
 
 You can vary the number of words that the output is comprised of:
