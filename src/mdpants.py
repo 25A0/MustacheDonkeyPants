@@ -5,6 +5,7 @@ from io import open, DEFAULT_BUFFER_SIZE
 import argparse
 import hashlib
 import os
+from os import path
 import binascii
 import numpy
 import codecs
@@ -132,10 +133,10 @@ def parse_args(arguments):
 
     word_input = parser.add_mutually_exclusive_group()
     word_input.add_argument('--in',
-        dest='in', metavar='<file>',
-        help='Use the words from the specified text file.')
+        dest='in', metavar='<file>', default='words.txt',
+        help='Use the words from the specified text file (default: %(default)s).')
     word_input.add_argument('--bin',
-        dest='bin', metavar='<file>', default='words.bin', 
+        dest='bin', metavar='<file>',
         help='Use the words from the specified binary file (see constant_width.py).')
 
     parser.add_argument('-c', '--concat',
@@ -152,12 +153,21 @@ if __name__ == '__main__':
     seed = get_seed(args['file'])
     numpy.random.seed(bytearray(seed))
 
-    if args['in']: 
-        mode = 'text'
-        wordlist_filename = args['in']
-    elif args['bin']: 
+    if args['bin']:
+        if not os.path.isfile(str(args['bin'])):
+            print(args['bin'] + ": no such file or directory")
+            sys.exit(2)
         mode = 'binary'
         wordlist_filename = args['bin']
+    elif args['in']:
+        if not os.path.isfile(str(args['in'])):
+            print(args['in'] + ": no such file or directory")
+            sys.exit(2)
+        mode = 'text'
+        wordlist_filename = args['in']
+    else:
+        print("Use --in or --bin to specify a word list.")
+        sys.exit(2)
 
     # These indices are floats in [0, 1) and will later be translated into
     # integers within the limits of the word list.
