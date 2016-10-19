@@ -44,11 +44,15 @@ def len_wordlist(filename):
     count = 0
     with codecs.open(filename, 'r', encoding='utf-8') as f:
         for line in f:
-            count +=1
+            if accept_line(line):
+                count +=1
     return count
 
 def postprocess(word):
     return word.strip().title()
+
+def accept_line(line):
+    return len(line.strip()) > 0
 
 def fetch_text(filename, sorted_float_indices):
     total = len_wordlist(filename)
@@ -57,6 +61,8 @@ def fetch_text(filename, sorted_float_indices):
     sorted_words = []
     with codecs.open(filename, 'r', encoding='utf-8') as f:
         for line in f:
+            if not accept_line(line):
+                continue
             if len(sorted_indices) is 0:
                 break
             # We use a while loop instead of a simple check since there might
