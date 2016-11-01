@@ -1,2 +1,5 @@
 *.pyc
 *.bin
+
+# Ignore pytest's cache folders
+.cache/
