@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pytest
 
 from mdpants import mdpants
@@ -37,6 +38,9 @@ def test_word_count():
 def test_word_count_sparse():
     assert mdpants.len_wordlist('tests/testsparsewordlist.txt') == 50
 
+def test_word_count_non_ascii():
+    assert mdpants.len_wordlist('tests/testemoticons.txt') == 18
+
 def test_accept_lines_with_not_only_whitespace():
     assert mdpants.accept_line(' foo \n')
     assert mdpants.accept_line('foo\n')
@@ -72,4 +76,9 @@ def test_extract_sparse_words():
         [0.0/count, 4.0/count, 22.0/count], 'text')
     assert words == ['Aa', 'Aahing', 'Aasvogels']
 
+def test_extract_sparse_non_ascii():
+    count = mdpants.len_wordlist('tests/testemoticons.txt')
+    words = mdpants.fetch_words('tests/testemoticons.txt',
+        [0.0/count, 8.0/count, 17.0/count], 'text')
+    assert words == [u'😚', u'😢', u'😫']
 
