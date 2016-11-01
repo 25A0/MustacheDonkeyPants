@@ -150,10 +150,11 @@ def parse_args(arguments):
         help='Use the specified character or string to concatenate the words (default: %(default)s).')
     return parser.parse_args(arguments)
 
-if __name__ == '__main__':
-    # Starting at index 1 to skip the name of the program
+def main(argv = None):
+    if argv == None:
+        # Starting at index 1 to skip the name of the program
+        argv = sys.argv[1:]
     args = vars(parse_args(sys.argv[1:]))
-    # print(args)
 
     # Initialize the sequence that will determine which words are used
     seed = get_seed(args['file'])
@@ -184,6 +185,9 @@ if __name__ == '__main__':
 
     # print('# words in list: {}'.format(len_wordlist))
     # print('indices: {}'.format(indices))
+    return 0
 
 
+if __name__ == '__main__':
+    sys.exit(main())
     
