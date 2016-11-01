@@ -10,21 +10,7 @@ import numpy
 import codecs
 import struct
 
-def get_hash_seed(filename):
-    hash_alg = hashlib.sha512()
-    if filename.strip() is '-':
-        f = sys.stdin
-    else: 
-        f = codecs.open(filename, 'r', encoding='utf-8')
-
-    try:
-        s = f.read(DEFAULT_BUFFER_SIZE)
-        while len(s) > 0:
-            hash_alg.update(s)
-            s = f.read(DEFAULT_BUFFER_SIZE)
-        return hash_alg.digest()
-    finally:
-        f.close()
+from mdpants import accept_line
 
 def wordlist_stats(filename):
     '''
@@ -36,6 +22,8 @@ def wordlist_stats(filename):
     total = 0
     with codecs.open(filename, 'r', encoding='utf-8') as f:
         for line in f:
+            if not accept_line(line):
+                continue
             count +=1
             total += len(line)
             if _len_word(line) > max_line:

@@ -34,7 +34,7 @@ def get_prng_seed():
     # To simplify things, we'll generate the same amount of data as sha512
     return os.urandom(512/8)
 
-def get_seed(file):
+def get_seed(file=None):
     if file is None:
         return get_prng_seed()
     else:
@@ -150,6 +150,10 @@ def parse_args(arguments):
         help='Use the specified character or string to concatenate the words (default: %(default)s).')
     return parser.parse_args(arguments)
 
+def get_indices(seed, count):
+    numpy.random.seed(bytearray(seed))
+    return numpy.random.rand(count)
+
 def main(argv = None):
     if argv == None:
         # Starting at index 1 to skip the name of the program
@@ -158,7 +162,6 @@ def main(argv = None):
 
     # Initialize the sequence that will determine which words are used
     seed = get_seed(args['file'])
-    numpy.random.seed(bytearray(seed))
 
     if args['bin']:
         if not os.path.isfile(str(args['bin'])):
@@ -178,7 +181,7 @@ def main(argv = None):
 
     # These indices are floats in [0, 1) and will later be translated into
     # integers within the limits of the word list.
-    indices = numpy.random.rand(args['num_words'])
+    indices = get_indices(seed, args['num_words'])
     words = fetch_words(wordlist_filename, indices, mode)
 
     print(args['concat'].join(words).encode('utf-8'))
