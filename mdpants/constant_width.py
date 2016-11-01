@@ -45,6 +45,8 @@ def rewrite(infilename, outfilename, stats):
         outfile.write(struct.pack('=q', stats['max_line']))
         with codecs.open(infilename, 'r', encoding='utf-8') as f:
             for line in f:
+                if not accept_line(line):
+                    continue
                 # Write the stripped line to outfile, append newline
                 line = line.strip() + '\n'
                 outfile.write(unicode(line))

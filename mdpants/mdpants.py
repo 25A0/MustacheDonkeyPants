@@ -85,8 +85,9 @@ def fetch_binary(filename, sorted_float_indices):
             f.seek(max_line*advance, os.SEEK_CUR)
             current = sorted_indices[0]
 
-            word = f.read(max_line)
-            sorted_words.append(postprocess(word[:word.index(b'\x0a')].decode('utf-8')))
+            bin_word = f.read(max_line)
+            word = bin_word[:bin_word.index(b'\x0a')].decode('utf-8')
+            sorted_words.append(postprocess(word))
             del sorted_indices[0]
             if len(sorted_indices) == 0: break
 
