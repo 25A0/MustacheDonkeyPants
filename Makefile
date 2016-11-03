@@ -2,7 +2,7 @@
 all: words.bin emoticons.bin
 
 %.bin: %.txt
-	./src/constant_width.py -o $@ $^
+	./mdpants/constant_width.py -o $@ $^
 
 clean:
 	rm *.bin
