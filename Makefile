@@ -1,4 +1,6 @@
 
+.PHONY: test clean dist_test all
+
 all: words.bin emoticons.bin
 
 %.bin: %.txt
@@ -6,7 +8,10 @@ all: words.bin emoticons.bin
 
 clean:
 	rm *.bin
+	rm -rf .eggs
 
-test:
-	python -m pytest tests/test_mdpants.py
-	python -m pytest tests/test_constant_width.py
+test: words.bin emoticons.bin
+	python -m pytest tests
+
+dist_test: test
+	python setup.py test
