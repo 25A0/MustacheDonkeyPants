@@ -151,6 +151,11 @@ def parse_args(arguments):
     parser.add_argument('-c', '--concat',
         dest='concat', metavar='char', default='.',
         help='Use the specified character or string to concatenate the words (default: %(default)s).')
+
+    parser.add_argument('--emoticons', 
+        dest='emoticons', action='store_true',
+        help='Use a small set of emoticons instead of words.')
+
     return parser.parse_args(arguments)
 
 def get_indices(seed, count):
@@ -165,6 +170,11 @@ def main(argv = None):
 
     # Initialize the sequence that will determine which words are used
     seed = get_seed(args['file'])
+
+    # If the user wants emoticons, pick the binary list of emoticons that
+    # ships with the package
+    if args['emoticons']:
+        args['bin'] = resource_filename(__name__, 'lists/emoticons.bin')
 
     # If no list is specified, use default list
     if not (args['in'] or args['bin']):

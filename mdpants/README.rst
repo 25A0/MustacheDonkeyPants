@@ -40,7 +40,12 @@ You can vary the number of words that the output is comprised of::
     % mdpants -N5 myfile
     Plottage.Hypoazoturia.Congresswomen.Affiliable.Specks
 
-You can specify a different list of words if you want.
+You can specify a different list of words if you want::
+
+    % echo "foo\nbar\nbaz" > foolist
+    % echo 'Hello World!' | mdpants --in foolist -
+    Bar.Bar.Foo
+
 It works with emoticons, too::
 
     % echo 'Hello World!' > myfile
