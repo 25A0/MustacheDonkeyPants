@@ -142,10 +142,10 @@ def parse_args(arguments):
 
     word_input = parser.add_mutually_exclusive_group()
     word_input.add_argument('--in',
-        dest='in', metavar='<file>', default=resource_filename(__name__, 'lists/words.txt'),
+        dest='in', metavar='<file>',
         help='Use the words from the specified text file (default: %(default)s).')
     word_input.add_argument('--bin',
-        dest='bin', metavar='<file>', default=resource_filename(__name__, 'lists/words.bin'),
+        dest='bin', metavar='<file>',
         help='Use the words from the specified binary file (see constant_width.py).')
 
     parser.add_argument('-c', '--concat',
@@ -165,6 +165,10 @@ def main(argv = None):
 
     # Initialize the sequence that will determine which words are used
     seed = get_seed(args['file'])
+
+    # If no list is specified, use default list
+    if not (args['in'] or args['bin']):
+        args['bin'] = resource_filename(__name__, 'lists/words.bin')
 
     if args['bin']:
         if not os.path.isfile(str(args['bin'])):
