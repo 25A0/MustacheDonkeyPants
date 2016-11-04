@@ -33,13 +33,13 @@ def test_binfile_needs_argument():
         assert mdpants.parse_args(['--bin'])
 
 def test_word_count():
-    assert mdpants.len_wordlist('tests/testwordlist.txt') == 50
+    assert mdpants.len_wordlist('tests/lists/wordlist.txt') == 50
 
 def test_word_count_sparse():
-    assert mdpants.len_wordlist('tests/testsparsewordlist.txt') == 50
+    assert mdpants.len_wordlist('tests/lists/sparsewordlist.txt') == 50
 
 def test_word_count_non_ascii():
-    assert mdpants.len_wordlist('tests/testemoticons.txt') == 18
+    assert mdpants.len_wordlist('tests/lists/emoticons.txt') == 18
 
 def test_accept_lines_with_not_only_whitespace():
     assert mdpants.accept_line(' foo \n')
@@ -47,13 +47,13 @@ def test_accept_lines_with_not_only_whitespace():
     assert mdpants.accept_line('\t\tfoo\t\n')
 
 def test_seed_depends_on_file_content():
-    seed1 = mdpants.get_hash_seed('tests/existing_file')
-    seed2 = mdpants.get_hash_seed('tests/another_existing_file')
-    assert seed1 <> seed2
+    seed1 = mdpants.get_hash_seed('tests/lists/existing_file')
+    seed2 = mdpants.get_hash_seed('tests/lists/another_existing_file')
+    assert not seed1 == seed2
 
 def test_seed_deterministic():
-    seed1 = mdpants.get_hash_seed('tests/existing_file')
-    seed2 = mdpants.get_hash_seed('tests/existing_file')
+    seed1 = mdpants.get_hash_seed('tests/lists/existing_file')
+    seed2 = mdpants.get_hash_seed('tests/lists/existing_file')
     assert seed1 == seed2
 
     seed3 = binascii.unhexlify('0cf9180a764aba863a67b6d72f0918bc131c6772642cb2dce5a34f0a702f9470ddc2bf125c12198b1995c233c34b4afd346c54a2334c350a948a51b6e8b4e6b6')
@@ -62,23 +62,23 @@ def test_seed_deterministic():
 def test_random_seed_not_trivially_broken():
     seed1 = mdpants.get_prng_seed()
     seed2 = mdpants.get_prng_seed()
-    assert seed1 <> seed2
+    assert not seed1 == seed2
 
 def test_extract_words():
-    count = mdpants.len_wordlist('tests/testwordlist.txt')
-    words = mdpants.fetch_words('tests/testwordlist.txt',
+    count = mdpants.len_wordlist('tests/lists/wordlist.txt')
+    words = mdpants.fetch_words('tests/lists/wordlist.txt',
         [0.0/count, 1.0/count, 2.0/count], 'text')
     assert words == ['Aa', 'Aaa', 'Aah']
 
 def test_extract_sparse_words():
-    count = mdpants.len_wordlist('tests/testsparsewordlist.txt')
-    words = mdpants.fetch_words('tests/testsparsewordlist.txt',
+    count = mdpants.len_wordlist('tests/lists/sparsewordlist.txt')
+    words = mdpants.fetch_words('tests/lists/sparsewordlist.txt',
         [0.0/count, 4.0/count, 22.0/count], 'text')
     assert words == ['Aa', 'Aahing', 'Aasvogels']
 
 def test_extract_sparse_non_ascii():
-    count = mdpants.len_wordlist('tests/testemoticons.txt')
-    words = mdpants.fetch_words('tests/testemoticons.txt',
+    count = mdpants.len_wordlist('tests/lists/emoticons.txt')
+    words = mdpants.fetch_words('tests/lists/emoticons.txt',
         [0.0/count, 8.0/count, 17.0/count], 'text')
     assert words == [u'😚', u'😢', u'😫']
 

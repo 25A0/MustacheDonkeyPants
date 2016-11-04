@@ -3,3 +3,9 @@
 
 # Ignore pytest's cache folders
 .cache/
+
+.eggs
+build
+dist
+mdpants.egg-info
+virtenv
