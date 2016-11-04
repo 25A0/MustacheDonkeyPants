@@ -1,7 +1,7 @@
 BINLISTS := $(addsuffix .bin, $(basename $(wildcard mdpants/lists/*.txt)))
 VERSION := $(shell cat mdpants/version)
 # The types of distributions we will produce
-DISTTYPES = ".tar.gz -py2-none-any.whl"
+DISTTYPES = .tar.gz -py2-none-any.whl
 
 .PHONY: test clean dist_test test-dist
 
@@ -61,13 +61,16 @@ test-pip-test: test-publish
 test-publish: dist
 	twine upload -r pypitest dist/mdpants-${VERSION}*
 
+publish: dist
+	twine upload dist/mdpants-${VERSION}*
+
 # Build dist files
-dist: $(addprefix dist/mdpants-${VERSION}, $(shell echo $(DISTTYPES)))
+dist: $(addprefix dist/mdpants-${VERSION}, $(shell echo ${DISTTYPES}))
 
 # Build source dist
-dist/mdpants-${VERSION}%.tar.gz: ${BINLISTS} mdpants/* tests/* setup.py
+dist/mdpants-%.tar.gz: ${BINLISTS} mdpants/* tests/* setup.py
 	python setup.py sdist
 
 # Build wheel
-dist/mdpants-${VERSION}%.whl: ${BINLISTS} mdpants/* tests/* setup.py
+dist/mdpants-%.whl: ${BINLISTS} mdpants/* tests/* setup.py
 	python setup.py bdist_wheel
