@@ -96,6 +96,10 @@ pronounceable. With Mustache Donkey Pants I can easily generate unique,
 memorable and pronounceable file names without having to worry about collisions
 or people guessing URLs.
 
+## Disclaimer
+
+Although `alias md5=mdpants --emoticons -N 16` sounds like a great idea, you
+really shouldn't use this as a sort of weird replacement for a hash function.
 
 ## Final note
 
