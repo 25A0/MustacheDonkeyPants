@@ -11,6 +11,8 @@ import numpy
 import codecs
 import struct
 
+from pkg_resources import resource_filename
+
 DEFAULT_N_WORDS = 3
 
 def get_hash_seed(filename):
@@ -140,10 +142,10 @@ def parse_args(arguments):
 
     word_input = parser.add_mutually_exclusive_group()
     word_input.add_argument('--in',
-        dest='in', metavar='<file>', default='words.txt',
+        dest='in', metavar='<file>', default=resource_filename(__name__, 'lists/words.txt'),
         help='Use the words from the specified text file (default: %(default)s).')
     word_input.add_argument('--bin',
-        dest='bin', metavar='<file>',
+        dest='bin', metavar='<file>', default=resource_filename(__name__, 'lists/words.bin'),
         help='Use the words from the specified binary file (see constant_width.py).')
 
     parser.add_argument('-c', '--concat',

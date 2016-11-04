@@ -96,10 +96,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        'mdpants': ['words.bin',
-            'words.txt',
-            'emoticons.bin',
-            'emoticons.txt'],
+        'mdpants': ['lists/*.txt'],
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
