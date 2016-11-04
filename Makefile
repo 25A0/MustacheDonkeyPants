@@ -1,4 +1,6 @@
 BINLISTS := $(addsuffix .bin, $(basename $(wildcard mdpants/lists/*.txt)))
+VERSION := $(shell cat mdpants/version)
+DISTFILES = dist/mdpants-${VERSION}*
 
 .PHONY: test clean dist_test all dist
 
@@ -10,6 +12,7 @@ default:
 
 clean:
 	rm mdpants/lists/*.bin
+	rm -rf dist/*
 	python setup.py develop --uninstall
 
 test: ${BINLISTS}
@@ -24,13 +27,14 @@ dev:
 virtenv:
 	virtualenv virtenv
 
-test-dist: dist virtenv $(addprefix test-dist-, $(notdir $(wildcard dist/*)))
+test-dist: dist virtenv $(addprefix test-dist-, $(notdir $(shell echo $(DISTFILES))))
 
 test-dist-%: dist
 	. virtenv/bin/activate ;\
 	pip install dist/$* ;\
+	cd virtenv ;\
 	which mdpants ;\
-	echo 'Hello World!' | virtenv/bin/mdpants - ;\
+	echo 'Hello World!' | bin/mdpants - ;\
 	deactivate ;\
 	virtualenv --clear virtenv
 
