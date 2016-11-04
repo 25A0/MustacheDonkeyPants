@@ -28,7 +28,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version=version,
 
-    description='A small tool to generate... ',
+    description='A small tool to generate deterministic, pronounceable and memorable words from a given input',
     long_description=long_description,
 
     # The project's main homepage.
