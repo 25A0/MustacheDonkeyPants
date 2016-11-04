@@ -64,7 +64,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='tool hash deterministic pronounceable words wordlist',
+    keywords='tool hash deterministic pronounceable words',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -78,7 +78,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['argparse', 'hashlib', 'numpy'],
+    install_requires=['numpy'],
 
     # Add setup_requires according to 
     # http://doc.pytest.org/en/latest/goodpractices.html#integrating-with-setuptools-python-setup-py-test-pytest-runner
