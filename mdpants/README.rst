@@ -8,6 +8,7 @@ Install
 -------
 
 ::
+
     pip install mdpants
 
 Or::
