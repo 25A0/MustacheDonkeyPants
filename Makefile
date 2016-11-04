@@ -15,6 +15,9 @@ default:
 clean:
 	rm mdpants/lists/*.bin
 	rm -rf dist/*
+	rm -rf build
+	rm -rf *.egg-info
+	rm -rf .eggs
 	python setup.py develop --uninstall
 
 # Run unit test
