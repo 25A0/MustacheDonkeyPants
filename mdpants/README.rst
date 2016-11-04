@@ -4,6 +4,18 @@ Mustache Donkey Pants
 This is a small tool to generate deterministic, pronounceable and memorable words from a given input.
 Inspired by https://destructible.io/ and https://what3words.com/.
 
+Install
+-------
+
+::
+    pip install mdpants
+
+Or::
+
+    git clone git@github.com:25A0/MustacheDonkeyPants.git
+    python setup.py develop
+
+
 Usage
 -----
 
