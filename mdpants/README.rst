@@ -10,43 +10,43 @@ Usage
 :: 
 
     % echo 'Hello World!' > myfile
-    % ./src/mdpants.py myfile
+    % mdpants myfile
     Plottage.Hypoazoturia.Congresswomen
 
 The output depends on the file content, not the filename::
 
     % echo 'Thanks for all the fish!' > myfile
-    % ./src/mdpants.py myfile
+    % mdpants myfile
     Noncalculable.Cremationist.Somersetted
-    % echo 'Thanks for all the fish!' | ./src/mdpants.py -
+    % echo 'Thanks for all the fish!' | mdpants -
     Noncalculable.Cremationist.Somersetted
 
 
 You can vary the number of words that the output is comprised of::
 
     % echo 'Hello World' > myfile
-    % ./src/mdpants.py -N5 myfile
+    % mdpants -N5 myfile
     Plottage.Hypoazoturia.Congresswomen.Affiliable.Specks
 
 You can specify a different list of words if you want.
 It works with emoticons, too::
 
     % echo 'Hello World!' > myfile
-    % ./src/mdpants.py --in emoticons.txt myfile
+    % mdpants --emoticons myfile
     😳.😟.😍
 
 To change the delimiter between words, use the ``-c`` option::
 
     % echo 'Never gonna give you up' > myfile
-    % ./src/mdpants.py -c ' - ' myfile
+    % mdpants -c ' - ' myfile
     Lings - Distractedness - Buhl
 
 If you do want a result that is pseudorandomly generated, rather than
 deterministically, use the ``-R`` flag::
 
-    % ./src/mdpants.py -R
+    % mdpants -R
     Unplagiarized.Cytotropism.Ravelings
-    % ./src/mdpants.py -R
+    % mdpants -R
     Bismuthous.Fizzwater.Maxicoats
 
 Binary wordlists
@@ -57,7 +57,7 @@ run ``make`` to produce a more efficient version of the word list. Then run
 mdpants with the ``--bin <file>`` option, like so::
 
     % echo 'Hello World' > myfile
-    % ./src/mdpants.py --bin words.bin myfile
+    % mdpants --bin words.bin myfile
 
 While the generation of the binary wordlist takes a while, and the resulting
 file is quite a bit larger than the original file, you will find that mdpants
