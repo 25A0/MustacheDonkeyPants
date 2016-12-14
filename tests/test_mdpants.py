@@ -59,6 +59,9 @@ def test_seed_deterministic():
     seed3 = binascii.unhexlify('0cf9180a764aba863a67b6d72f0918bc131c6772642cb2dce5a34f0a702f9470ddc2bf125c12198b1995c233c34b4afd346c54a2334c350a948a51b6e8b4e6b6')
     assert seed3 == seed1
 
+def test_seed_from_binary_file():
+    assert mdpants.get_hash_seed('tests/lists/binary')
+
 def test_random_seed_not_trivially_broken():
     seed1 = mdpants.get_prng_seed()
     seed2 = mdpants.get_prng_seed()
