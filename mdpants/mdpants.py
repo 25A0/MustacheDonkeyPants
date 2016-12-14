@@ -20,7 +20,7 @@ def get_hash_seed(filename):
     if filename.strip() is '-':
         f = sys.stdin
     else: 
-        f = codecs.open(filename, 'r', encoding='utf-8')
+        f = codecs.open(filename, 'rb')
 
     try:
         s = f.read(DEFAULT_BUFFER_SIZE)
